@@ -101,7 +101,12 @@ def get_sum_zero_pairs(numbers):
         [[-1, 1], [0, 0]]
     """
 
-    return []
+    negatives = {abs(num) for num in numbers if num <= 0}
+    positives = {num for num in numbers if num >= 0}
+    overlap = positives & negatives
+    pairs = [[-num, num] for num in overlap]
+
+    return sorted(pairs)
 
 
 def top_chars(phrase):
@@ -144,7 +149,7 @@ def top_chars(phrase):
             most_common_chars.append(char)
         else:
             break
-            
+
     return sorted(most_common_chars)
 
     # # char_count = {char:  for char in phrase} 
