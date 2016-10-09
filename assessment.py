@@ -30,8 +30,8 @@ def count_words(phrase):
         >>> print_dict(count_words("Porcupine see, porcupine do."))
         {'Porcupine': 1, 'do.': 1, 'porcupine': 1, 'see,': 1}
     """
-    words = phrase.split()
-    return Counter(words)
+
+    return Counter(phrase.split())
 
 
 def get_melon_price(melon_name):
@@ -61,9 +61,13 @@ def get_melon_price(melon_name):
     'Christmas': 14.25
     }
 
-    if melon_name in melon_dict:
-        return melon_dict[melon_name]
-    return 'No price found'
+    # longer solution
+
+    # if melon_name in melon_dict:
+    #     return melon_dict[melon_name]
+    # return 'No price found'
+
+    return melon_dict.get(melon_name, 'No price found')
 
 
 def word_length_sorted(words):
@@ -81,19 +85,30 @@ def word_length_sorted(words):
         >>> word_length_sorted(["ok", "an", "apple", "a", "day"])
         [(1, ['a']), (2, ['an', 'ok']), (3, ['day']), (5, ['apple'])]
     """
-    word_lengths = {word: len(word) for word in words}
-    lengths = {length:[] for length in word_lengths.values()}
+    # word_lengths = {word: len(word) for word in words}
 
-    for word in word_lengths:
-        lengths[word_lengths[word]].append(word)
-        lengths[word_lengths[word]].sort()
+    # lengths = {length:[] for length in word_lengths.itervalues()}
 
-    # word_lengths = []
-    # print lengths.items()
-    # for item in lengths.items():
-    #     word_lengths.append(tuple(item))
+    # for word in word_lengths:
+    #     lengths[word_lengths[word]].append(word)
+        # lengths[word_lengths[word]].sort()
+
+    # for words in lengths.itervalues():
+    #     words.sort()
+
+    # inv_word_lengths = {}
+    # {inv_word_lengths.setdefault(v, []).append(k) for k, v in word_lengths.items()}
+
+    lengths = {}
+    words.sort()
+    for word in words:
+        length = len(word)
+        lengths[length] = lengths.get(length, []) + [word]
 
     return lengths.items()
+
+    # return inv_word_lengths
+
 
 
 def translate_to_pirate_talk(phrase):
@@ -150,9 +165,7 @@ def translate_to_pirate_talk(phrase):
     'is':          'be',
     }
 
-
-    phrase = phrase.split()
-    pirate_phrase = [english_to_pirate_dict.get(word, word) for word in phrase]
+    pirate_phrase = [english_to_pirate_dict.get(word, word) for word in phrase.split()]
     return " ".join(pirate_phrase)
 
 
@@ -198,8 +211,27 @@ def kids_game(names):
     a dictionary (with the super-fast lookup they provide) can help;
     good solutions here will definitely require a dictionary.
     """
+    current_word = names.pop(0)
+    babble = [current_word]
 
-    return []
+    first_letters = {}
+    {first_letters.setdefault(name[0],[]).append(name) for name in names}
+
+    while True:
+        last_letter = current_word[-1]
+
+        if last_letter in first_letters:
+            possible_words = first_letters[last_letter]
+            current_word = possible_words.pop(0)
+            babble.append(current_word)
+
+            if possible_words == []:
+                first_letters.pop(last_letter)
+                
+        else:
+            break
+
+    return babble
 
 #####################################################################
 # You can ignore everything below this.

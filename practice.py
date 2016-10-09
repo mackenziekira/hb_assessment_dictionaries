@@ -73,6 +73,7 @@ def find_unique_common_items(items1, items2):
     items2 = set(items2)
     shared_words = items1 & items2
     return list(shared_words)
+    
 
 def get_sum_zero_pairs(numbers):
     """Given list of numbers, return list of pair summing to 0.
