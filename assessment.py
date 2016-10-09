@@ -4,6 +4,8 @@
 dictionaries and sets.
 """
 
+from collections import Counter
+
 def count_words(phrase):
     """Count unique words in a string.
 
@@ -28,8 +30,8 @@ def count_words(phrase):
         >>> print_dict(count_words("Porcupine see, porcupine do."))
         {'Porcupine': 1, 'do.': 1, 'porcupine': 1, 'see,': 1}
     """
-
-    return {}
+    words = phrase.split()
+    return Counter(words)
 
 
 def get_melon_price(melon_name):
@@ -52,7 +54,16 @@ def get_melon_price(melon_name):
         'No price found'
     """
 
-    return 0
+    melon_dict = {
+    'Watermelon': 2.95,
+    'Canaloupe': 2.50,
+    'Musk': 3.25,
+    'Christmas': 14.25
+    }
+
+    if melon_name in melon_dict:
+        return melon_dict[melon_name]
+    return 'No price found'
 
 
 def word_length_sorted(words):
@@ -70,8 +81,19 @@ def word_length_sorted(words):
         >>> word_length_sorted(["ok", "an", "apple", "a", "day"])
         [(1, ['a']), (2, ['an', 'ok']), (3, ['day']), (5, ['apple'])]
     """
+    word_lengths = {word: len(word) for word in words}
+    lengths = {length:[] for length in word_lengths.values()}
 
-    return []
+    for word in word_lengths:
+        lengths[word_lengths[word]].append(word)
+        lengths[word_lengths[word]].sort()
+
+    # word_lengths = []
+    # print lengths.items()
+    # for item in lengths.items():
+    #     word_lengths.append(tuple(item))
+
+    return lengths.items()
 
 
 def translate_to_pirate_talk(phrase):
@@ -112,8 +134,26 @@ def translate_to_pirate_talk(phrase):
         >>> translate_to_pirate_talk("my student is not a man!")
         'me swabbie be not a man!'
     """
+    english_to_pirate_dict = {
+    'sir': 'matey',
+    'hotel':       'fleabag inn',
+    'student':     'swabbie',
+    'man':         'matey',
+    'professor':   'foul blaggart',
+    'restaurant':  'galley',
+    'your':        'yer',
+    'excuse':      'arr',
+    'students':    'swabbies',
+    'are':         'be',
+    'restroom':    'head',
+    'my':          'me',
+    'is':          'be',
+    }
 
-    return ""
+
+    phrase = phrase.split()
+    pirate_phrase = [english_to_pirate_dict.get(word, word) for word in phrase]
+    return " ".join(pirate_phrase)
 
 
 def kids_game(names):
