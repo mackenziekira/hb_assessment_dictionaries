@@ -30,8 +30,16 @@ def count_words(phrase):
         >>> print_dict(count_words("Porcupine see, porcupine do."))
         {'Porcupine': 1, 'do.': 1, 'porcupine': 1, 'see,': 1}
     """
+    phrase = phrase.split()
 
-    return Counter(phrase.split())
+    word_count = {}
+    for word in phrase:
+        word_count[word] = word_count.get(word, 0) + 1
+
+    return word_count
+
+    # Uses Counter class
+    # return Counter(phrase.split())
 
 
 def get_melon_price(melon_name):
@@ -227,7 +235,7 @@ def kids_game(names):
 
             if possible_words == []:
                 first_letters.pop(last_letter)
-                
+
         else:
             break
 
