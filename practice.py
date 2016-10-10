@@ -134,8 +134,10 @@ def top_chars(phrase):
     Do not count spaces, but count all other characters.
 
     """
+
+
     # make a word count dict
-    
+
     word_count = {}
     for char in phrase:
         if char == " ":
@@ -143,25 +145,42 @@ def top_chars(phrase):
         else:
             word_count[char] = word_count.get(char, 0) + 1
 
-    # turn the word_count dict into a list of tuples (word, count), and sort the list by counts
+    # invert the word count dict so that the values (counts) are the keys and the keys (chars) are a list of values attached to the counts
+    word_count_inv = {}
+    {word_count_inv.setdefault(count, []).append(word) for word, count in word_count.iteritems()}
 
-    ordered_counts = sorted(word_count.items(), key = lambda x: x[1], reverse = True)
+    # turn the inv dict into a sorted list, with highest frequency at the beginning
+    ordered_counts = sorted(word_count_inv.iteritems(), reverse = True)
+
+    # return the value (list of chars) associated with the highest frequency 
+    return ordered_counts[0][1]
+
+
+
+    # # an alternate way to complete the problem after turning the phrase into a word_count dict:
+
+    # # turn the word_count dict into a list of tuples (word, count), and sort the list by counts
+
+    # ordered_counts = sorted(word_count.items(), key = lambda x: x[1], reverse = True)
     
-    most_common_chars = []
+    # most_common_chars = []
 
-    # iterate through the (char, count) tuples until the count starts decreasing, then break
+    # # iterate through the (char, count) tuples until the count starts decreasing, then break
 
-    for index in xrange(len(ordered_counts)):
-        char = ordered_counts[index][0]
-        count = ordered_counts[index][1]
-        previous_count = ordered_counts[index - 1][1]
+    # for index in xrange(len(ordered_counts)):
+    #     char = ordered_counts[index][0]
+    #     count = ordered_counts[index][1]
+    #     previous_count = ordered_counts[index - 1][1]
 
-        if most_common_chars == [] or count == previous_count:
-            most_common_chars.append(char)
-        else:
-            break
+    #     if most_common_chars == [] or count == previous_count:
+    #         most_common_chars.append(char)
+    #     else:
+    #         break
 
-    return most_common_chars
+    # return most_common_chars
+
+
+
 
     # solved using Counter class
 
