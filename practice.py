@@ -134,24 +134,54 @@ def top_chars(phrase):
     Do not count spaces, but count all other characters.
 
     """
-
-    char_count = Counter(phrase).most_common()
-    most_common_chars = []
-
-    for index in xrange(len(char_count)):
-        char = char_count[index][0]
-        count = char_count[index][1]
-        prev_count = char_count[index - 1][1]
+    # make a word count dict
+    
+    word_count = {}
+    for char in phrase:
         if char == " ":
             pass
-        elif most_common_chars == []:
-            most_common_chars.append(char)
-        elif count == prev_count:
+        else:
+            word_count[char] = word_count.get(char, 0) + 1
+
+    # turn the word_count dict into a list of tuples (word, count), and sort the list by counts
+
+    ordered_counts = sorted(word_count.items(), key = lambda x: x[1], reverse = True)
+    
+    most_common_chars = []
+
+    # iterate through the (char, count) tuples until the count starts decreasing, then break
+
+    for index in xrange(len(ordered_counts)):
+        char = ordered_counts[index][0]
+        count = ordered_counts[index][1]
+        previous_count = ordered_counts[index - 1][1]
+
+        if most_common_chars == [] or count == previous_count:
             most_common_chars.append(char)
         else:
             break
 
-    return sorted(most_common_chars)
+    return most_common_chars
+
+    # solved using Counter class
+
+    # char_count = Counter(phrase).most_common()
+    # most_common_chars = []
+
+    # for index in xrange(len(char_count)):
+    #     char = char_count[index][0]
+    #     count = char_count[index][1]
+    #     prev_count = char_count[index - 1][1]
+    #     if char == " ":
+    #         pass
+    #     elif most_common_chars == []:
+    #         most_common_chars.append(char)
+    #     elif count == prev_count:
+    #         most_common_chars.append(char)
+    #     else:
+    #         break
+
+    # return sorted(most_common_chars)
 
 
 #####################################################################
