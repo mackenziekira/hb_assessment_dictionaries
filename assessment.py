@@ -93,19 +93,6 @@ def word_length_sorted(words):
         >>> word_length_sorted(["ok", "an", "apple", "a", "day"])
         [(1, ['a']), (2, ['an', 'ok']), (3, ['day']), (5, ['apple'])]
     """
-    # word_lengths = {word: len(word) for word in words}
-
-    # lengths = {length:[] for length in word_lengths.itervalues()}
-
-    # for word in word_lengths:
-    #     lengths[word_lengths[word]].append(word)
-        # lengths[word_lengths[word]].sort()
-
-    # for words in lengths.itervalues():
-    #     words.sort()
-
-    # inv_word_lengths = {}
-    # {inv_word_lengths.setdefault(v, []).append(k) for k, v in word_lengths.items()}
 
     lengths = {}
     words.sort()
@@ -114,8 +101,6 @@ def word_length_sorted(words):
         lengths[length] = lengths.get(length, []) + [word]
 
     return lengths.items()
-
-    # return inv_word_lengths
 
 
 
@@ -219,12 +204,15 @@ def kids_game(names):
     a dictionary (with the super-fast lookup they provide) can help;
     good solutions here will definitely require a dictionary.
     """
+    # start the babble list with the first word in the input list
     current_word = names.pop(0)
     babble = [current_word]
 
+    # map first letters to words that begin with that first letter
     first_letters = {}
     {first_letters.setdefault(name[0],[]).append(name) for name in names}
 
+    # find the last letter of the current word, see if it exists in the dict of first letters, otherwise break. this is where the babble list gets populated.
     while True:
         last_letter = current_word[-1]
 
